@@ -12,7 +12,7 @@ if ( 'yes' !== get_option( 'invoiceforge_remove_data_on_uninstall', 'no' ) ) {
 }
 
 // Remove all plugin options.
-$options = [
+$invoiceforge_options = array(
 	'invoiceforge_shop_name',
 	'invoiceforge_shop_address',
 	'invoiceforge_shop_vat_number',
@@ -25,9 +25,9 @@ $options = [
 	'invoiceforge_attach_to_emails',
 	'invoiceforge_generate_packing_slip',
 	'invoiceforge_remove_data_on_uninstall',
-];
-foreach ( $options as $option ) {
-	delete_option( $option );
+);
+foreach ( $invoiceforge_options as $invoiceforge_option ) {
+	delete_option( $invoiceforge_option );
 }
 
 // Remove per-year sequence counters.
