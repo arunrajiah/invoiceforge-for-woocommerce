@@ -23,7 +23,9 @@ jobs:
         run: composer install --no-dev --optimize-autoloader
 
       - name: Remove dev-only files before plugin check
-        run: rm -f .gitattributes .editorconfig phpcs.xml.dist phpunit.xml.dist
+        run: |
+          rm -f .gitattributes .editorconfig .gitignore phpcs.xml.dist phpunit.xml.dist
+          rm -rf .github tests docs
 
       - name: Verify vendor/mpdf is present
         run: |

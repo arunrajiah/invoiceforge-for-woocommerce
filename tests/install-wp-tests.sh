@@ -14,7 +14,7 @@ SKIP_DB_CREATE=${6-false}
 
 TMPDIR=${TMPDIR-/tmp}
 TMPDIR=$(echo "$TMPDIR" | sed -e "s/\/$//")
-WP_TESTS_DIR=${WP_TESTS_DIR-$TMPDIR/tests-lib}
+WP_TESTS_DIR=${WP_TESTS_DIR-$TMPDIR/wordpress-tests-lib}
 WP_CORE_DIR=${WP_CORE_DIR-$TMPDIR/wordpress}
 
 download() {
@@ -57,15 +57,15 @@ install_wp() {
     mkdir -p "$WP_CORE_DIR"
 
     if [[ $WP_VERSION == 'nightly' || $WP_VERSION == 'trunk' ]]; then
-        mkdir -p "$TMPDIR/nightly"
-        download https://wordpress.org/nightly-builds/latest.zip "$TMPDIR/nightly/nightly.zip"
-        unzip -q "$TMPDIR/nightly/nightly.zip" -d "$TMPDIR/nightly/"
-        mv "$TMPDIR/nightly/wordpress/"* "$WP_CORE_DIR"
+        mkdir -p "$TMPDIR/wordpress-nightly"
+        download https://wordpress.org/nightly-builds/wordpress-latest.zip "$TMPDIR/wordpress-nightly/wordpress-nightly.zip"
+        unzip -q "$TMPDIR/wordpress-nightly/wordpress-nightly.zip" -d "$TMPDIR/wordpress-nightly/"
+        mv "$TMPDIR/wordpress-nightly/wordpress/"* "$WP_CORE_DIR"
     else
         if [ $WP_VERSION == 'latest' ]; then
             local ARCHIVE_NAME='latest'
         else
-            local ARCHIVE_NAME="$WP_VERSION"
+            local ARCHIVE_NAME="wordpress-$WP_VERSION"
         fi
         download https://wordpress.org/$ARCHIVE_NAME.tar.gz "$TMPDIR/wordpress.tar.gz"
         tar --strip-components=1 -zxmf "$TMPDIR/wordpress.tar.gz" -C "$WP_CORE_DIR"
