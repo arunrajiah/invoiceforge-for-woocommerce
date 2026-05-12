@@ -17,10 +17,10 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: "8.2"
-          tools: composer, cs2pr
+          tools: composer
 
       - name: Install dev dependencies
         run: composer install --prefer-dist --no-progress --no-interaction
 
       - name: Run PHPCS
-        run: composer lint -- --report=checkstyle | cs2pr
+        run: composer lint -- --report=github
