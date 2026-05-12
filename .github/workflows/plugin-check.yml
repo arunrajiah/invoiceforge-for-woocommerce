@@ -22,11 +22,6 @@ jobs:
       - name: Install production dependencies
         run: composer install --no-dev --optimize-autoloader
 
-      - name: Remove dev-only files before plugin check
-        run: |
-          rm -f .gitattributes .editorconfig .gitignore phpcs.xml.dist phpunit.xml.dist
-          rm -rf .github tests docs
-
       - name: Verify vendor/mpdf is present
         run: |
           if [ ! -d "vendor/mpdf/mpdf" ]; then
@@ -44,11 +39,25 @@ jobs:
           fi
           echo "Version check passed: $HEADER_VERSION"
 
+      - name: Build production-only copy for plugin check
+        run: |
+          rsync -a \
+            --exclude='.git' \
+            --exclude='.gitattributes' \
+            --exclude='.gitignore' \
+            --exclude='.editorconfig' \
+            --exclude='phpcs.xml.dist' \
+            --exclude='phpunit.xml.dist' \
+            --exclude='.github/' \
+            --exclude='tests/' \
+            --exclude='docs/' \
+            ./ /tmp/invoiceforge-for-woocommerce/
+
       - name: Run WordPress Plugin Check
         uses: wordpress/plugin-check-action@v1
         with:
-          build-dir: './'
-          exclude-directories: 'vendor,tests,node_modules,build,docs,templates'
+          build-dir: '/tmp/invoiceforge-for-woocommerce'
+          exclude-directories: 'vendor,node_modules,templates'
           categories: 'plugin_repo,security,general,accessibility,performance,i18n'
 
       - name: Comment PR on failure
