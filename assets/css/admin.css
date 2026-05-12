@@ -1,0 +1,19 @@
+/* InvoiceForge Admin Styles */
+
+.invoiceforge-order-action-btn {
+	display: inline-block;
+	padding: 4px 8px;
+	font-size: 11px;
+	line-height: 1.4;
+	border-radius: 3px;
+	text-decoration: none;
+	color: #2563eb;
+	border: 1px solid #2563eb;
+	background: #fff;
+	transition: background 0.15s, color 0.15s;
+}
+
+.invoiceforge-order-action-btn:hover {
+	background: #2563eb;
+	color: #fff;
+}

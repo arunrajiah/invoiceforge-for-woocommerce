@@ -1,0 +1,37 @@
+# Composer — vendor/mpdf IS committed (required for plugin ZIP installs)
+# Dev dependencies are NOT committed.
+/vendor/autoload.php
+/vendor/composer/
+/vendor/phpunit/
+/vendor/wp-coding-standards/
+/vendor/phpcsstandards/
+/vendor/dealerdirect/
+/vendor/yoast/
+
+# Keep mpdf in the repo (users can't run composer install)
+!vendor/mpdf/
+
+# Node
+node_modules/
+npm-debug.log
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Build artifacts
+*.zip
+build/
+dist/
+
+# Test coverage
+.phpunit.result.cache
+coverage/

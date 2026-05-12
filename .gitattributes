@@ -1,0 +1,13 @@
+# Force LF line endings on checkout.
+* text=auto eol=lf
+
+# Exclude from export / release ZIP.
+/.github export-ignore
+/tests export-ignore
+/.editorconfig export-ignore
+/.gitattributes export-ignore
+/phpcs.xml.dist export-ignore
+/phpunit.xml.dist export-ignore
+/composer.json export-ignore
+/composer.lock export-ignore
+/README.md export-ignore
