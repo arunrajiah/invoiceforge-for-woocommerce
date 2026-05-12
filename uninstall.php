@@ -48,27 +48,27 @@ $wpdb->query( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 );
 
 // Remove PDF files via WP_Filesystem.
-$upload_dir = wp_upload_dir();
-$pdf_dir    = trailingslashit( $upload_dir['basedir'] ) . 'invoiceforge';
+$invoiceforge_upload_dir = wp_upload_dir();
+$invoiceforge_pdf_dir    = trailingslashit( $invoiceforge_upload_dir['basedir'] ) . 'invoiceforge';
 
-if ( is_dir( $pdf_dir ) ) {
+if ( is_dir( $invoiceforge_pdf_dir ) ) {
 	if ( ! function_exists( 'WP_Filesystem' ) ) {
 		require_once ABSPATH . 'wp-admin/includes/file.php';
 	}
 	global $wp_filesystem;
 	WP_Filesystem();
 
-	$files = new RecursiveIteratorIterator(
-		new RecursiveDirectoryIterator( $pdf_dir, RecursiveDirectoryIterator::SKIP_DOTS ),
+	$invoiceforge_files = new RecursiveIteratorIterator(
+		new RecursiveDirectoryIterator( $invoiceforge_pdf_dir, RecursiveDirectoryIterator::SKIP_DOTS ),
 		RecursiveIteratorIterator::CHILD_FIRST
 	);
-	foreach ( $files as $file ) {
-		$real = $file->getRealPath();
-		if ( $file->isDir() ) {
-			$wp_filesystem->rmdir( $real );
+	foreach ( $invoiceforge_files as $invoiceforge_file ) {
+		$invoiceforge_real = $invoiceforge_file->getRealPath();
+		if ( $invoiceforge_file->isDir() ) {
+			$wp_filesystem->rmdir( $invoiceforge_real );
 		} else {
-			$wp_filesystem->delete( $real );
+			$wp_filesystem->delete( $invoiceforge_real );
 		}
 	}
-	$wp_filesystem->rmdir( $pdf_dir );
+	$wp_filesystem->rmdir( $invoiceforge_pdf_dir );
 }

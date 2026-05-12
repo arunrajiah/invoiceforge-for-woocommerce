@@ -22,6 +22,9 @@ jobs:
       - name: Install production dependencies
         run: composer install --no-dev --optimize-autoloader
 
+      - name: Remove dev-only files before plugin check
+        run: rm -f .gitattributes .editorconfig phpcs.xml.dist phpunit.xml.dist
+
       - name: Verify vendor/mpdf is present
         run: |
           if [ ! -d "vendor/mpdf/mpdf" ]; then
@@ -43,7 +46,7 @@ jobs:
         uses: wordpress/plugin-check-action@v1
         with:
           build-dir: './'
-          exclude-directories: 'vendor,tests,node_modules,build,docs'
+          exclude-directories: 'vendor,tests,node_modules,build,docs,templates'
           categories: 'plugin_repo,security,general,accessibility,performance,i18n'
 
       - name: Comment PR on failure

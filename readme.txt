@@ -1,8 +1,8 @@
 === InvoiceForge for WooCommerce ===
 Contributors: arunrajiah
-Tags: pdf, invoice, packing-slip, woocommerce-pdf-invoices, pdf-invoice-woocommerce, woocommerce, invoice-generator, order-invoice
+Tags: invoice, woocommerce, pdf, packing-slip, woocommerce-pdf-invoices
 Requires at least: 6.2
-Tested up to: 6.8
+Tested up to: 6.9
 Requires PHP: 7.4
 Stable tag: 0.1.0
 WC requires at least: 7.0

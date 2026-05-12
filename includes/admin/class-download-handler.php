@@ -29,16 +29,22 @@ class Download_Handler {
 	 * Handles admin-context requests (manage_woocommerce required for regenerate).
 	 */
 	public function handle(): void {
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended -- nonce verified below via check_admin_referer before any privileged action.
 		if ( ! isset( $_GET['invoiceforge_action'] ) ) {
 			return;
 		}
-
 		$action   = sanitize_key( wp_unslash( $_GET['invoiceforge_action'] ) );
 		$order_id = isset( $_GET['order_id'] ) ? absint( $_GET['order_id'] ) : 0;
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
 		if ( ! $order_id ) {
 			return;
 		}
+
+		$nonce_prefix = ( 0 === strpos( $action, 'regenerate_' ) )
+			? 'invoiceforge_regenerate_'
+			: 'invoiceforge_download_';
+		check_admin_referer( $nonce_prefix . $order_id );
 
 		switch ( $action ) {
 			case 'download_invoice':
@@ -63,17 +69,19 @@ class Download_Handler {
 	 * Handles frontend-context download requests (customer My Account).
 	 */
 	public function handle_frontend(): void {
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended -- nonce verified below via check_admin_referer before any privileged action.
 		if ( is_admin() || ! isset( $_GET['invoiceforge_action'] ) ) {
 			return;
 		}
-
 		$action   = sanitize_key( wp_unslash( $_GET['invoiceforge_action'] ) );
 		$order_id = isset( $_GET['order_id'] ) ? absint( $_GET['order_id'] ) : 0;
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
 		if ( ! $order_id || 'download_invoice' !== $action ) {
 			return;
 		}
 
+		check_admin_referer( 'invoiceforge_download_' . $order_id );
 		$this->download_invoice( $order_id );
 	}
 
@@ -83,8 +91,6 @@ class Download_Handler {
 	 * @param int $order_id Order ID.
 	 */
 	private function download_invoice( int $order_id ): void {
-		check_admin_referer( 'invoiceforge_download_' . $order_id );
-
 		if ( ! invoiceforge_current_user_can_view( $order_id ) ) {
 			wp_die( esc_html__( 'Permission denied.', 'invoiceforge-for-woocommerce' ) );
 		}
@@ -104,8 +110,6 @@ class Download_Handler {
 	 * @param int $order_id Order ID.
 	 */
 	private function download_packing_slip( int $order_id ): void {
-		check_admin_referer( 'invoiceforge_download_' . $order_id );
-
 		if ( ! current_user_can( 'manage_woocommerce' ) ) {
 			wp_die( esc_html__( 'Permission denied.', 'invoiceforge-for-woocommerce' ) );
 		}
@@ -125,8 +129,6 @@ class Download_Handler {
 	 * @param int $order_id Order ID.
 	 */
 	private function regenerate_invoice( int $order_id ): void {
-		check_admin_referer( 'invoiceforge_regenerate_' . $order_id );
-
 		if ( ! current_user_can( 'manage_woocommerce' ) ) {
 			wp_die( esc_html__( 'Permission denied.', 'invoiceforge-for-woocommerce' ) );
 		}
@@ -155,8 +157,6 @@ class Download_Handler {
 	 * @param int $order_id Order ID.
 	 */
 	private function regenerate_packing_slip( int $order_id ): void {
-		check_admin_referer( 'invoiceforge_regenerate_' . $order_id );
-
 		if ( ! current_user_can( 'manage_woocommerce' ) ) {
 			wp_die( esc_html__( 'Permission denied.', 'invoiceforge-for-woocommerce' ) );
 		}
