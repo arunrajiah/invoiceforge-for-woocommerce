@@ -25,6 +25,11 @@ function invoiceforge_fs_write( string $absolute_path, string $content ): bool {
 	}
 	WP_Filesystem();
 
+	if ( ! $wp_filesystem ) {
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents -- fallback when WP_Filesystem unavailable (e.g. Plugin Check activation sandbox).
+		return false !== file_put_contents( $absolute_path, $content );
+	}
+
 	return (bool) $wp_filesystem->put_contents( $absolute_path, $content, FS_CHMOD_FILE );
 }
 
