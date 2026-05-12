@@ -63,6 +63,7 @@ final class InvoiceForge {
 		require_once INVOICEFORGE_PLUGIN_DIR . 'includes/admin/class-settings-page.php';
 		require_once INVOICEFORGE_PLUGIN_DIR . 'includes/admin/class-order-actions.php';
 		require_once INVOICEFORGE_PLUGIN_DIR . 'includes/admin/class-bulk-actions.php';
+		require_once INVOICEFORGE_PLUGIN_DIR . 'includes/admin/class-download-handler.php';
 		require_once INVOICEFORGE_PLUGIN_DIR . 'includes/admin/class-admin.php';
 
 		// Emails.
@@ -83,6 +84,10 @@ final class InvoiceForge {
 	}
 
 	private function define_admin_hooks(): void {
+		// Download handler runs on both admin_init and init (for frontend My Account downloads).
+		$download_handler = new Admin\Download_Handler();
+		$download_handler->init();
+
 		if ( ! is_admin() ) {
 			return;
 		}

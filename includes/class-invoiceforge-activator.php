@@ -26,9 +26,8 @@ class InvoiceForge_Activator {
 
 		if ( ! file_exists( $base ) ) {
 			wp_mkdir_p( $base );
-			// Protect the directory from direct access.
-			file_put_contents( $base . '/.htaccess', 'deny from all' ); // phpcs:ignore WordPress.WP.AlternativeFunctions
-			file_put_contents( $base . '/index.php', '<?php // Silence is golden.' ); // phpcs:ignore WordPress.WP.AlternativeFunctions
+			invoiceforge_fs_write( $base . '/.htaccess', 'deny from all' );
+			invoiceforge_fs_write( $base . '/index.php', '<?php // Silence is golden.' );
 		}
 	}
 

@@ -69,19 +69,8 @@ class Order_Actions {
 		$invoice_path = $order->get_meta( '_invoiceforge_invoice_path', true );
 
 		if ( $invoice_path && file_exists( $invoice_path ) ) {
-			$nonce_url = wp_nonce_url(
-				add_query_arg(
-					[
-						'invoiceforge_action' => 'download_invoice',
-						'order_id'            => $order->get_id(),
-					],
-					admin_url( 'admin-ajax.php' )
-				),
-				'invoiceforge_download_' . $order->get_id()
-			);
-
 			$actions['invoiceforge_invoice'] = [
-				'url'    => $nonce_url,
+				'url'    => Download_Handler::get_download_url( $order->get_id(), 'download_invoice', true ),
 				'name'   => __( 'Invoice PDF', 'invoiceforge-for-woocommerce' ),
 				'action' => 'invoiceforge-invoice',
 			];

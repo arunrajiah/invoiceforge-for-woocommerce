@@ -8,6 +8,69 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
+ * Writes content to an absolute file path using the WordPress Filesystem API.
+ *
+ * Use this instead of file_put_contents() for all plugin-owned file writes
+ * so Plugin Check doesn't flag direct filesystem operations.
+ *
+ * @param string $absolute_path Absolute destination path.
+ * @param string $content       Content to write.
+ * @return bool True on success.
+ */
+function invoiceforge_fs_write( string $absolute_path, string $content ): bool {
+	global $wp_filesystem;
+
+	if ( ! function_exists( 'WP_Filesystem' ) ) {
+		require_once ABSPATH . 'wp-admin/includes/file.php';
+	}
+	WP_Filesystem();
+
+	return (bool) $wp_filesystem->put_contents( $absolute_path, $content, FS_CHMOD_FILE );
+}
+
+/**
+ * Deletes a file using the WordPress Filesystem API.
+ *
+ * Use this instead of unlink() for all plugin-owned file deletions.
+ *
+ * @param string $absolute_path Absolute path of the file to delete.
+ * @return bool True on success or if file does not exist.
+ */
+function invoiceforge_fs_delete( string $absolute_path ): bool {
+	global $wp_filesystem;
+
+	if ( ! function_exists( 'WP_Filesystem' ) ) {
+		require_once ABSPATH . 'wp-admin/includes/file.php';
+	}
+	WP_Filesystem();
+
+	if ( ! $wp_filesystem->exists( $absolute_path ) ) {
+		return true;
+	}
+
+	return (bool) $wp_filesystem->delete( $absolute_path );
+}
+
+/**
+ * Reads a file using the WordPress Filesystem API.
+ *
+ * Use this instead of file_get_contents() for plugin-owned file reads.
+ *
+ * @param string $absolute_path Absolute path of the file to read.
+ * @return string|false File contents or false on failure.
+ */
+function invoiceforge_fs_read( string $absolute_path ) {
+	global $wp_filesystem;
+
+	if ( ! function_exists( 'WP_Filesystem' ) ) {
+		require_once ABSPATH . 'wp-admin/includes/file.php';
+	}
+	WP_Filesystem();
+
+	return $wp_filesystem->get_contents( $absolute_path );
+}
+
+/**
  * Returns the absolute file path for an order's invoice PDF, or null if not yet generated.
  *
  * @param int|\WC_Order $order Order ID or object.

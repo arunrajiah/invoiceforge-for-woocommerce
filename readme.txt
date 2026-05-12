@@ -1,4 +1,4 @@
-===InvoiceForge for WooCommerce===
+=== InvoiceForge for WooCommerce ===
 Contributors: arunrajiah
 Tags: pdf, invoice, packing-slip, woocommerce-pdf-invoices, pdf-invoice-woocommerce, woocommerce, invoice-generator, order-invoice
 Requires at least: 6.2

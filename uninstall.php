@@ -47,21 +47,28 @@ $wpdb->query( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 	)
 );
 
-// Remove PDF files.
+// Remove PDF files via WP_Filesystem.
 $upload_dir = wp_upload_dir();
 $pdf_dir    = trailingslashit( $upload_dir['basedir'] ) . 'invoiceforge';
 
 if ( is_dir( $pdf_dir ) ) {
+	if ( ! function_exists( 'WP_Filesystem' ) ) {
+		require_once ABSPATH . 'wp-admin/includes/file.php';
+	}
+	global $wp_filesystem;
+	WP_Filesystem();
+
 	$files = new RecursiveIteratorIterator(
 		new RecursiveDirectoryIterator( $pdf_dir, RecursiveDirectoryIterator::SKIP_DOTS ),
 		RecursiveIteratorIterator::CHILD_FIRST
 	);
 	foreach ( $files as $file ) {
+		$real = $file->getRealPath();
 		if ( $file->isDir() ) {
-			rmdir( $file->getRealPath() ); // phpcs:ignore WordPress.WP.AlternativeFunctions
+			$wp_filesystem->rmdir( $real );
 		} else {
-			unlink( $file->getRealPath() ); // phpcs:ignore WordPress.WP.AlternativeFunctions
+			$wp_filesystem->delete( $real );
 		}
 	}
-	rmdir( $pdf_dir ); // phpcs:ignore WordPress.WP.AlternativeFunctions
+	$wp_filesystem->rmdir( $pdf_dir );
 }
