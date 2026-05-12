@@ -82,6 +82,7 @@ add_action( 'plugins_loaded', 'invoiceforge_init', 10 );
  * Activation hook.
  */
 function invoiceforge_activate(): void {
+	require_once INVOICEFORGE_PLUGIN_DIR . 'includes/helpers/functions.php';
 	require_once INVOICEFORGE_PLUGIN_DIR . 'includes/class-invoiceforge-activator.php';
 	InvoiceForge\InvoiceForge_Activator::activate();
 }
