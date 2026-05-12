@@ -3,11 +3,12 @@
     <description>WordPress Extra coding standards for InvoiceForge.</description>
 
     <file>.</file>
-    <exclude-pattern>vendor/*</exclude-pattern>
-    <exclude-pattern>tests/*</exclude-pattern>
-    <exclude-pattern>node_modules/*</exclude-pattern>
+    <!-- Use */vendor/* (not vendor/*) so PHPCS matches vendor/ anywhere in the absolute path. -->
+    <exclude-pattern>*/vendor/*</exclude-pattern>
+    <exclude-pattern>*/tests/*</exclude-pattern>
+    <exclude-pattern>*/node_modules/*</exclude-pattern>
     <!-- Templates are view files; variables come from extract() and follow HTML patterns. -->
-    <exclude-pattern>templates/*</exclude-pattern>
+    <exclude-pattern>*/templates/*</exclude-pattern>
 
     <arg name="basepath" value="."/>
     <arg name="colors"/>
@@ -33,6 +34,26 @@
                 <element value="invoiceforge-for-woocommerce"/>
             </property>
         </properties>
+    </rule>
+
+    <!--
+        Short array syntax [] is valid PHP 5.4+ and used throughout WP core since 5.6.
+        Disabling DisallowShortArraySyntax since we target PHP 7.4+.
+    -->
+    <rule ref="Universal.Arrays.DisallowShortArraySyntax">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!--
+        Requiring docblocks on every private/internal method creates noise without
+        improving readability when method names and typed params are self-describing.
+        We keep file and class-level docblocks (WordPress-Docs) but relax method-level.
+    -->
+    <rule ref="Squiz.Commenting.FunctionComment.Missing">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+    <rule ref="Generic.Commenting.DocComment.MissingShort">
+        <exclude-pattern>*</exclude-pattern>
     </rule>
 
     <!-- Minimum PHP version. -->
