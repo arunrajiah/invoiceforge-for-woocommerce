@@ -45,6 +45,7 @@ jobs:
             --exclude='.git' \
             --exclude='.gitattributes' \
             --exclude='.gitignore' \
+            --exclude='.gitkeep' \
             --exclude='.editorconfig' \
             --exclude='phpcs.xml.dist' \
             --exclude='phpunit.xml.dist' \
@@ -52,6 +53,7 @@ jobs:
             --exclude='tests/' \
             --exclude='docs/' \
             ./ /tmp/invoiceforge-for-woocommerce/
+          mkdir -p /tmp/invoiceforge-for-woocommerce/languages/
 
       - name: Run WordPress Plugin Check
         uses: wordpress/plugin-check-action@v1
