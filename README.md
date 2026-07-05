@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="docs/assets/logo.svg" alt="InvoiceForge for WooCommerce logo" width="96" height="96">
+</p>
+
 # InvoiceForge for WooCommerce
 
 > Beautiful, automatic PDF invoices and packing slips for WooCommerce — free, open-source, and ready to go in minutes.

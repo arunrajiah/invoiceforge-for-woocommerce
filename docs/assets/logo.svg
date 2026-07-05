@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-label="InvoiceForge logo">
+  <defs><linearGradient id="g" x1="12" y1="12" x2="84" y2="84" gradientUnits="userSpaceOnUse"><stop stop-color="#0F172A"/><stop offset="1" stop-color="#F97316"/></linearGradient></defs>
+  <rect width="96" height="96" rx="22" fill="url(#g)"/>
+  <path d="M30 22h28l10 10v42H30V22Z" fill="#fff"/>
+  <path d="M58 22v13h13" fill="#FED7AA"/>
+  <path d="M39 45h20M39 56h20M39 67h12" stroke="#F97316" stroke-width="5" stroke-linecap="round"/>
+</svg>
